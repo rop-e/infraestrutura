@@ -1,7 +1,7 @@
 name: docker-compose-actions-workflow
 on:
   push:
-    branches: [ master ]
+    branches: [ master v0.1 redis ]
 jobs:
   build:
     runs-on: ubuntu-latest
