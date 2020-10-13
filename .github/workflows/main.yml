@@ -20,4 +20,4 @@ jobs:
       - name: Run migrate
         run: docker-compose exec -T webapp python manage.py migrate
       - name: Run test
-        run: docker-conpose exec -T webapp python manage.py test
+        run: docker-compose exec -T webapp python manage.py test
