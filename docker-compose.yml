@@ -12,6 +12,8 @@ services:
     env_file:
       - ./src/django.env
     command: gunicorn demo.wsgi:application -w 2 -b :8000
+    links:
+      - redis
 
   staticfiles:
     restart: always
@@ -21,7 +23,11 @@ services:
     volumes:
       - "./src/static:/www/static"
     links:
+      - redis
       - webapp:webapp
+    environment:
+      - PORT_REDIS=6379
+      - HOST_REDIS=redis
 
   ### PostgreSQL Container (Master) ####################################
 
@@ -58,6 +64,13 @@ services:
     links:
       - master
 
+### Redis Container #######################################
+
+  redis:
+    image: redis
+    volumes:
+      - dados_redis:/data
+  
 ### Volumes Setup ###########################################
 
 volumes:
@@ -66,4 +79,6 @@ volumes:
   slave_vol:
     driver: "local"
   sessions: ## nothing is connected to this (- ./data/sessions:/sessions)
+    driver: "local"
+  dados_redis:
     driver: "local"
