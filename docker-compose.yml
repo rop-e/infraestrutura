@@ -11,7 +11,7 @@ services:
       - "./src:/src"
     env_file:
       - ./src/django.env
-    command: gunicorn demo.wsgi:application -w 2 -b :8000
+    command: gunicorn ropd.wsgi:application -w 2 -b :8000
 
   staticfiles:
     restart: always
@@ -33,7 +33,7 @@ services:
     ports:
       - "5434:5432"
     env_file:
-      - ./.master.env
+      - ./master/.master.env
 
   ### PostgreSQL Container (Slave) ####################################
 
@@ -47,14 +47,16 @@ services:
     links:
       - master:master
     env_file:
-      - ./.slave.env
+      - ./slave/.slave.env
 
   ### pgAdmin Container (Master) #######################################
 
   pgadmin:
     build: ./pgadmin
     ports:
-      - "5051:5051"
+      - "5001:80"
+    env_file:
+      - ./pgadmin/.pgadmin.env
     links:
       - master
 
